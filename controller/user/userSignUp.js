@@ -1,11 +1,14 @@
-const userModel = require("../models/userModel")
+const userModel = require("../../models/userModel")
 const bcrypt = require('bcryptjs');
+
 
 async function userSignUpController(req,res){
     try{
         const { email, password, name} = req.body
-        
+
         const user = await userModel.findOne({email})
+
+        
 
         if(user){
             throw new Error("Already user exits.")
@@ -43,6 +46,7 @@ async function userSignUpController(req,res){
             error : false,
             message : "User created Successfully!"
         })
+
 
     }catch(err){
         res.json({

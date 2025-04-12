@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs')
-const userModel = require('../models/userModel')
+const userModel = require('../../models/userModel')
 const jwt = require('jsonwebtoken');
 
 async function userSignInController(req,res){
@@ -45,10 +45,6 @@ async function userSignInController(req,res){
        }else{
          throw new Error("Please check Password")
        }
-
-
-
-
 
 
 
