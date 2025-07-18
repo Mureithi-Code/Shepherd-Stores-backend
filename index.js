@@ -7,10 +7,10 @@ const router = require('./routes')
 
 
 const app = express()
-const allowedOrigins = process.env.FRONTEND_URL.split(",")
-
+const allowedOrigins = (process.env.FRONTEND_URL || "").split(",").map(origin => origin.trim())
 app.use(cors({
     origin: function (origin, callback) {
+        console.log("Request Origin:", origin)
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true)
         } else {
