@@ -7,18 +7,21 @@ const router = require('./routes')
 
 
 const app = express()
-const allowedOrigins = (process.env.FRONTEND_URL || "").split(",").map(origin => origin.trim())
+const allowedOrigins = process.env.FRONTEND_URL.split(',').map(origin => origin.trim())
+
 app.use(cors({
-    origin: function (origin, callback) {
-        console.log("Allowed origins:", allowedOrigins)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true)
-        } else {
-            console.error("Blocked by CORS:", origin)
-            callback(new Error("Not allowed by CORS"))
-        }
-    },
-    credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like curl, mobile apps)
+    if (!origin) return callback(null, true)
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    } else {
+      console.error("CORS blocked:", origin)
+      return callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials: true
 }))
 
 app.use(express.json({ limit: '20mb' }))
